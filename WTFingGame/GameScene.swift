@@ -58,7 +58,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		self.addChild(scoreLable)
 		
 		
-		gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
+		gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true) //生成alien
 		
 		
 		
