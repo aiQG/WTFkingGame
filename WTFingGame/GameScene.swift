@@ -26,7 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	var possibleAlien = ["alien","alien2","alien3"]
 	
 	let alienCategory:UInt32 = 0x1 << 1
-	let photoTonrpedoCategory:UInt32 = 0x1 << 0
+	let photonTonrpedoCategory:UInt32 = 0x1 << 0
 	
 	
     override func didMove(to view: SKView) {
@@ -81,9 +81,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
 		alien.physicsBody?.isDynamic = true
 		// MARK: Have a look
-		alien.physicsBody?.categoryBitMask = alienCategory //同则不碰?
-		alien.physicsBody?.contactTestBitMask = photoTonrpedoCategory //出则碰?
-		alien.physicsBody?.collisionBitMask = 0 //同则碰?
+		alien.physicsBody?.categoryBitMask = alienCategory
+		alien.physicsBody?.collisionBitMask = 0
+		alien.physicsBody?.contactTestBitMask = photonTonrpedoCategory
 		
 		self.addChild(alien)
 		//动画
@@ -113,9 +113,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		torpedoNode.physicsBody?.isDynamic = true
 		
 		//MARK: Have a look
-		torpedoNode.physicsBody?.categoryBitMask = photoTonrpedoCategory //(类型)//同则不碰?
-		torpedoNode.physicsBody?.contactTestBitMask = alienCategory //出则碰?(边界?范围?)
-		torpedoNode.physicsBody?.collisionBitMask = 0 //同则碰?
+		torpedoNode.physicsBody?.categoryBitMask = photonTonrpedoCategory
+		torpedoNode.physicsBody?.collisionBitMask = 0
+		torpedoNode.physicsBody?.contactTestBitMask = alienCategory
 		torpedoNode.physicsBody?.usesPreciseCollisionDetection = true
 		
 		self.addChild(torpedoNode)
@@ -133,6 +133,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		var firstBody:SKPhysicsBody
 		var secondBody:SKPhysicsBody
 		
+		//由于存在A碰B和B碰A的情况所以要如下判断, 选择需要remove哪个 (categoryBitMask大的是alien)
 		if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
 			firstBody = contact.bodyA
 			secondBody = contact.bodyB
@@ -141,7 +142,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			secondBody = contact.bodyA
 		}
 		
-		if (firstBody.categoryBitMask & photoTonrpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
+		//判断firstBody是torpedo, secondBody是alien
+		if (firstBody.categoryBitMask & photonTonrpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
 			
 		}
 		
