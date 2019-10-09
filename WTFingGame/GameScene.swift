@@ -8,6 +8,8 @@
 
 import SpriteKit
 import GameplayKit
+import CoreMotion //硬件的运动信息
+
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
@@ -28,6 +30,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	let alienCategory:UInt32 = 0x1 << 1
 	let photonTonrpedoCategory:UInt32 = 0x1 << 0
 	
+	let motionManger = CMMotionManager()
+	var xAcceleration:CGFloat = 0 //x轴的加速
 	
     override func didMove(to view: SKView) {
 		
@@ -61,7 +65,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true) //生成alien
 		
 		
-		
+		motionManger.accelerometerUpdateInterval = 0.2 //加速度计更新间隔
+		motionManger.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
+			if let accelerometerData = data {
+				let acceleration = accelerometerData.acceleration
+				self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25 //这个加速度公式有点神奇
+			}
+		}
 		
 		
     }
@@ -144,13 +154,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		//判断firstBody是torpedo, secondBody是alien
 		if (firstBody.categoryBitMask & photonTonrpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
-			
+			torpedoDidCollideWithAlien(torpedoNode: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
 		}
 		
 	}
 	
+	func torpedoDidCollideWithAlien(torpedoNode:SKSpriteNode, alienNode:SKSpriteNode) {
+		
+		//添加粒子
+		let explosion = SKEmitterNode(fileNamed: "Explosion")!
+		explosion.position = alienNode.position
+		self.addChild(explosion)
+		//播放声音
+		self.run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
+		//移除Sprite
+		torpedoNode.removeFromParent()
+		alienNode.removeFromParent()
+		self.run(SKAction.wait(forDuration: 2)){
+			explosion.removeFromParent()
+		}
+		
+		score += 5
+	}
 	
-	
+	//物理状态更新执行
+	override func didSimulatePhysics() {
+		player.position.x += xAcceleration * 50
+		
+		if player.position.x < -UIScreen.main.bounds.width {
+			player.position = CGPoint(x: UIScreen.main.bounds.width, y: player.position.y)
+		}else if player.position.x > UIScreen.main.bounds.width {
+			player.position = CGPoint(x: -UIScreen.main.bounds.width, y: player.position.y)
+		}
+	}
 	
 	
     override func update(_ currentTime: TimeInterval) {
