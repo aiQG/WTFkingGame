@@ -24,6 +24,9 @@
 		59F3471E234DD05B0090B7A2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 59F3471D234DD05B0090B7A2 /* README.md */; };
 		59F347232352A9C90090B7A2 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 59F347222352A9C90090B7A2 /* MenuScene.sks */; };
 		59F347252352AC960090B7A2 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F347242352AC960090B7A2 /* MenuScene.swift */; };
+		59F347282352F3920090B7A2 /* lostLive.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 59F347272352F3920090B7A2 /* lostLive.mp3 */; };
+		59F3472A2352F65F0090B7A2 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F347292352F65F0090B7A2 /* GameOverScene.swift */; };
+		59F3472C2352F67B0090B7A2 /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 59F3472B2352F67B0090B7A2 /* GameOverScene.sks */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +70,9 @@
 		59F3471D234DD05B0090B7A2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		59F347222352A9C90090B7A2 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		59F347242352AC960090B7A2 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		59F347272352F3920090B7A2 /* lostLive.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lostLive.mp3; sourceTree = "<group>"; };
+		59F347292352F65F0090B7A2 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		59F3472B2352F67B0090B7A2 /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,8 +128,8 @@
 				59A68B74234D6811009EC82A /* GameViewController.swift */,
 				59A68B70234D6811009EC82A /* Actions.sks */,
 				59A68B76234D6811009EC82A /* Main.storyboard */,
-				59F347222352A9C90090B7A2 /* MenuScene.sks */,
-				59F347242352AC960090B7A2 /* MenuScene.swift */,
+				59F3472D2352F6A90090B7A2 /* Game Over  */,
+				59F347262352ED5D0090B7A2 /* Menu */,
 				59F3471F2352A8EE0090B7A2 /* Game */,
 				59F347212352A95C0090B7A2 /* Sounds */,
 				59F347202352A93E0090B7A2 /* Emmitters */,
@@ -174,9 +180,28 @@
 			isa = PBXGroup;
 			children = (
 				59A68BA3234D6841009EC82A /* explosion.mp3 */,
+				59F347272352F3920090B7A2 /* lostLive.mp3 */,
 				59A68BA1234D6841009EC82A /* torpedo.mp3 */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		59F347262352ED5D0090B7A2 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				59F347222352A9C90090B7A2 /* MenuScene.sks */,
+				59F347242352AC960090B7A2 /* MenuScene.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
+		59F3472D2352F6A90090B7A2 /* Game Over  */ = {
+			isa = PBXGroup;
+			children = (
+				59F3472B2352F67B0090B7A2 /* GameOverScene.sks */,
+				59F347292352F65F0090B7A2 /* GameOverScene.swift */,
+			);
+			path = "Game Over ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -284,9 +309,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				59A68BA5234D6841009EC82A /* torpedo.mp3 in Resources */,
+				59F3472C2352F67B0090B7A2 /* GameOverScene.sks in Resources */,
 				59A68BA4234D6841009EC82A /* Starfield.sks in Resources */,
 				59F3471E234DD05B0090B7A2 /* README.md in Resources */,
 				59A68B78234D6811009EC82A /* Main.storyboard in Resources */,
+				59F347282352F3920090B7A2 /* lostLive.mp3 in Resources */,
 				59A68BA7234D6841009EC82A /* explosion.mp3 in Resources */,
 				59A68B6F234D6811009EC82A /* GameScene.sks in Resources */,
 				59A68B7A234D6812009EC82A /* Assets.xcassets in Resources */,
@@ -318,6 +345,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59F3472A2352F65F0090B7A2 /* GameOverScene.swift in Sources */,
 				59A68B73234D6811009EC82A /* GameScene.swift in Sources */,
 				59F347252352AC960090B7A2 /* MenuScene.swift in Sources */,
 				59A68B75234D6811009EC82A /* GameViewController.swift in Sources */,

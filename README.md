@@ -32,3 +32,10 @@ UIScreen.main.bounds.width 获得的宽度的一半?
 ---
 
 最好是每个scene锚点相同 否则可能需要特殊操作
+
+presentScene后旧Scene的引用被删除
+
+2019.10.13
+TODO:
+优化初始化
+返回Menu按钮

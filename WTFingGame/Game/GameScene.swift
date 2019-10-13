@@ -23,6 +23,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		}
 	}
     
+	var livesArray:[SKSpriteNode]!
+	
+	
 	var gameTimer:Timer!
 	
 
@@ -30,6 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	var xAcceleration:CGFloat = 0 //x轴的加速
 	
     override func didMove(to view: SKView) {
+		addLives()
 		
 		starfield = SKEmitterNode(fileNamed: "Starfield")
 		starfield.position = CGPoint(x: 750/2, y: 1334+100)
@@ -49,7 +53,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		//初始化scoreLable
 		scoreLable = SKLabelNode(text: "Score: 0")
-		scoreLable.position = CGPoint(x: 750/2, y: 1334-100)
+		scoreLable.position = CGPoint(x: 100, y: 1334-70)
+		scoreLable.zPosition = 1 //over everything
 		scoreLable.fontSize = 36
 		scoreLable.fontName = "AmericanTypewriter-Bold" //加粗版
 		scoreLable.fontColor = .white
@@ -57,8 +62,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		self.addChild(scoreLable)
 		
-		
-		gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true) //生成alien
+		var timeInterval = 0.75
+		if UserDefaults.standard.bool(forKey: "difficultyHard") {
+			timeInterval = 0.3
+		}
+		gameTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true) //生成alien
 		
 		
 		motionManger.accelerometerUpdateInterval = 0.2 //加速度计更新间隔
@@ -100,6 +108,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		let animationDuration:TimeInterval = 6 //秒
 		var actionArray = [SKAction]() //动画函数队列
 		actionArray.append(SKAction.move(to: CGPoint(x: position, y: -10), duration: animationDuration))
+		
+		actionArray.append(SKAction.run {
+			self.run(SKAction.playSoundFileNamed("lostLive.mp3", waitForCompletion: false))
+			
+			if self.livesArray.count > 0 {
+				let liveNode = self.livesArray.first
+				liveNode?.removeFromParent() //从画面中删除
+				self.livesArray.removeFirst() //从数组中删除
+				
+				if self.livesArray.count == 0 {
+					let transition = SKTransition.flipHorizontal(withDuration: 0.5)
+					let gameOver = SKScene(fileNamed: "GameOverScene") as! GameOverScene
+					gameOver.score = self.score
+					gameOver.size = self.size
+					gameOver.scaleMode = .aspectFill //不设置无法显示scene
+					self.view?.presentScene(gameOver, transition: transition)
+					
+				}
+			}
+		})
+		
 		actionArray.append(SKAction.removeFromParent())
 		alien.run(SKAction.sequence(actionArray))
 		
@@ -185,6 +214,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 			player.position = CGPoint(x: 750+10, y: player.position.y)
 		}else if player.position.x > 750+10 {
 			player.position = CGPoint(x: -10, y: player.position.y)
+		}
+	}
+	
+	
+	func addLives() {
+		livesArray = [SKSpriteNode]()
+		
+		for live in 1...3 {
+			let liveNode = SKSpriteNode(imageNamed: "shuttle")
+			liveNode.position = CGPoint(x: self.frame.size.width - CGFloat(4 - live) * (liveNode.size.width + 3), y: self.frame.size.height - 60)
+			liveNode.zPosition = 1 //over everything
+			self.addChild(liveNode)
+			livesArray.append(liveNode)
 		}
 	}
 	

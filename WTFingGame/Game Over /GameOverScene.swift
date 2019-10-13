@@ -1,0 +1,48 @@
+//
+//  GameOverScene.swift
+//  WTFingGame
+//
+//  Created by 周测 on 10/13/19.
+//  Copyright © 2019 aiQG_. All rights reserved.
+//
+
+import SpriteKit
+
+class GameOverScene: SKScene {
+
+	var score:Int = 0
+	
+	var scoreLable:SKLabelNode!
+	var newGameButtonNode:SKSpriteNode!
+	
+	var menuButton:SKSpriteNode!
+	
+	override func didMove(to view: SKView) {
+		scoreLable = (self.childNode(withName: "scoreLabel") as! SKLabelNode)
+		scoreLable.text = "\(score)"
+		
+		newGameButtonNode = (self.childNode(withName: "newGameButton") as! SKSpriteNode)
+		newGameButtonNode.texture = SKTexture(imageNamed: "torpedo")
+		
+		menuButton = (self.childNode(withName: "menuButton") as! SKSpriteNode)
+	}
+	
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		let touch = touches.first
+		if let location = touch?.location(in: self) {
+			let node = self.nodes(at: location)
+			if node[0].name == "newGameButton" {
+				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
+				let gameScene = GameScene(size: self.size)
+				self.view?.presentScene(gameScene, transition: transition)
+			}
+			//TODO: - back to menu
+//			else if node[0].name == "menuButton" {
+//				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
+//				let menuScene = MenuScene(size: self.size)
+//				self.view?.presentScene(menuScene, transition: transition)
+//
+//			}
+		}
+	}
+}

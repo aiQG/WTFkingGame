@@ -18,17 +18,24 @@ class MenuScene: SKScene {
 	
 	override func didMove(to view: SKView) {
 		
-		starField = self.childNode(withName: "starField") as! SKEmitterNode //参数: .sks中的Node
+		starField = (self.childNode(withName: "starField") as! SKEmitterNode) //参数: .sks中的Node
 		starField.advanceSimulationTime(10)
 		
-		newGameButtonNode = self.childNode(withName: "newGameButton") as! SKSpriteNode
-		difficultyButtonNode = self.childNode(withName: "difficultyButton") as! SKSpriteNode
+		newGameButtonNode = (self.childNode(withName: "newGameButton") as! SKSpriteNode)
+		
+		difficultyButtonNode = (self.childNode(withName: "difficultyButton") as! SKSpriteNode)
 		//手动加纹理
 		difficultyButtonNode.texture = SKTexture(imageNamed: "spark")
 		
+		difficultyLabelNode = (self.childNode(withName: "difficultyLabel") as! SKLabelNode)
 		
-		difficultyLabelNode = self.childNode(withName: "difficultyLabel") as! SKLabelNode
-		
+		//根据上次选项设置
+		let userDefaults = UserDefaults.standard
+		if userDefaults.bool(forKey: "difficultyHard") {
+			difficultyLabelNode.text = "Hard"
+		}else{
+			difficultyLabelNode.text = "Easy"
+		}
 		
 	}
 	
@@ -43,12 +50,29 @@ class MenuScene: SKScene {
 				let transition = SKTransition.flipHorizontal(withDuration: 0.5) //过场动画
 				let gameScene = GameScene(size: self.size)
 				self.view?.presentScene(gameScene, transition: transition)
+			} else if nodesArray.first?.name == "difficultyButton" {
+				changeDifficulty()
 			}
 		}
 		
 	}
 	
-
+	func changeDifficulty() {
+		let userDefaults = UserDefaults.standard //用户默认数据
+		
+		if difficultyLabelNode.text == "Easy" {
+			difficultyLabelNode.text = "Hard"
+			userDefaults.set(true, forKey: "difficultyHard")
+		}else{
+			difficultyLabelNode.text = "Easy"
+			userDefaults.set(false, forKey: "difficultyHard")
+		}
+		
+		userDefaults.synchronize()
+		
+		
+	}
+	
 	
 	
 	
