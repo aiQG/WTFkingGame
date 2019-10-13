@@ -25,18 +25,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 	var gameTimer:Timer!
 	
-	var possibleAlien = ["alien","alien2","alien3"]
-	
-	let alienCategory:UInt32 = 0x1 << 1
-	let photonTonrpedoCategory:UInt32 = 0x1 << 0
-	
+
 	let motionManger = CMMotionManager()
 	var xAcceleration:CGFloat = 0 //x轴的加速
 	
     override func didMove(to view: SKView) {
 		
 		starfield = SKEmitterNode(fileNamed: "Starfield")
-		starfield.position = CGPoint(x: 0, y: 1472)
+		starfield.position = CGPoint(x: 750/2, y: 1334+100)
 		starfield.advanceSimulationTime(10) //跳过前十秒
 		self.addChild(starfield)
 		
@@ -44,7 +40,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		player = SKSpriteNode(imageNamed: "shuttle")
 		
-		player.position = CGPoint(x: 0, y: 0 - self.frame.size.height / 2 + player.size.height / 2 + 20) //原点在中间
+		player.position = CGPoint(x: 750/2, y: 0+30)
 		
 		self.addChild(player)
 		
@@ -53,7 +49,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 		//初始化scoreLable
 		scoreLable = SKLabelNode(text: "Score: 0")
-		scoreLable.position = CGPoint(x: 0, y: self.frame.size.height / 2 - 100)
+		scoreLable.position = CGPoint(x: 750/2, y: 1334-100)
 		scoreLable.fontSize = 36
 		scoreLable.fontName = "AmericanTypewriter-Bold" //加粗版
 		scoreLable.fontColor = .white
@@ -76,21 +72,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
     }
     
+	var possibleAlien = ["alien","alien2","alien3"]
     
+	let alienCategory:UInt32 = 0x1 << 1
+	let photonTonrpedoCategory:UInt32 = 0x1 << 0
+	
 	@objc func addAlien() {
 		possibleAlien = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAlien) as! [String] //相当于随机排列
 		
 		let alien = SKSpriteNode(imageNamed: possibleAlien[0]) //选取一个
 		
-		let randomAlienPosition = GKRandomDistribution(lowestValue: Int(-UIScreen.main.bounds.width) + Int(alien.size.width / 2), highestValue: Int(UIScreen.main.bounds.width) - Int(alien.size.width / 2)) //随机的x轴位置
+		let randomAlienPosition = GKRandomDistribution(lowestValue: 10, highestValue: 750-10) //随机的x轴位置
 		
 		let position = CGFloat(randomAlienPosition.nextInt())
 		
-		alien.position = CGPoint(x: position, y: self.frame.size.height / 2 + alien.size.height / 2)
+		alien.position = CGPoint(x: position, y: 1334+10)
 		//给予物理状态
 		alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
 		alien.physicsBody?.isDynamic = true
-		// MARK: Have a look
+		
 		alien.physicsBody?.categoryBitMask = alienCategory
 		alien.physicsBody?.collisionBitMask = 0
 		alien.physicsBody?.contactTestBitMask = photonTonrpedoCategory
@@ -99,7 +99,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		//动画
 		let animationDuration:TimeInterval = 6 //秒
 		var actionArray = [SKAction]() //动画函数队列
-		actionArray.append(SKAction.move(to: CGPoint(x: position, y: 0 - self.frame.size.height / 2 - alien.size.height), duration: animationDuration))
+		actionArray.append(SKAction.move(to: CGPoint(x: position, y: -10), duration: animationDuration))
 		actionArray.append(SKAction.removeFromParent())
 		alien.run(SKAction.sequence(actionArray))
 		
@@ -122,7 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		torpedoNode.physicsBody = SKPhysicsBody(circleOfRadius: torpedoNode.size.width / 2)
 		torpedoNode.physicsBody?.isDynamic = true
 		
-		//MARK: Have a look
+
 		torpedoNode.physicsBody?.categoryBitMask = photonTonrpedoCategory
 		torpedoNode.physicsBody?.collisionBitMask = 0
 		torpedoNode.physicsBody?.contactTestBitMask = alienCategory
@@ -132,7 +132,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		//动画
 		let animationDuration:TimeInterval = 0.3
 		var actionArray = [SKAction]() //动画函数队列
-		actionArray.append(SKAction.move(to: CGPoint(x: player.position.x, y: self.frame.size.height / 2), duration: animationDuration))
+		actionArray.append(SKAction.move(to: CGPoint(x: player.position.x, y: 1334+10), duration: animationDuration))
 		actionArray.append(SKAction.removeFromParent())
 		torpedoNode.run(SKAction.sequence(actionArray))
 		
@@ -181,10 +181,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	override func didSimulatePhysics() {
 		player.position.x += xAcceleration * 50
 		
-		if player.position.x < -UIScreen.main.bounds.width {
-			player.position = CGPoint(x: UIScreen.main.bounds.width, y: player.position.y)
-		}else if player.position.x > UIScreen.main.bounds.width {
-			player.position = CGPoint(x: -UIScreen.main.bounds.width, y: player.position.y)
+		if player.position.x < -10 {
+			player.position = CGPoint(x: 750+10, y: player.position.y)
+		}else if player.position.x > 750+10 {
+			player.position = CGPoint(x: -10, y: player.position.y)
 		}
 	}
 	
