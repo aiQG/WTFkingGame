@@ -35,14 +35,13 @@ class GameOverScene: SKScene {
 				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
 				let gameScene = GameScene(size: self.size)
 				self.view?.presentScene(gameScene, transition: transition)
+			}else if node[0].name == "menuButton" {
+				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
+				let menuScene = SKScene(fileNamed: "MenuScene") as! MenuScene
+				menuScene.scaleMode = .aspectFill
+				self.view?.presentScene(menuScene, transition: transition)
+
 			}
-			//TODO: - back to menu
-//			else if node[0].name == "menuButton" {
-//				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
-//				let menuScene = MenuScene(size: self.size)
-//				self.view?.presentScene(menuScene, transition: transition)
-//
-//			}
 		}
 	}
 }
