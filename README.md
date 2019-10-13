@@ -29,3 +29,6 @@ iOS设备的屏幕坐标
 原点在中间//锚点问题
 UIScreen.main.bounds.width 获得的宽度的一半? 
 
+---
+
+最好是每个scene锚点相同 否则可能需要特殊操作
