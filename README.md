@@ -1,6 +1,7 @@
 #  GameLearning
 
 [youtube](https://www.youtube.com/watch?v=cJy61bOqQpg&list=PLY1P2_piiWEYjjumZztc_U4EYTpwx9mfe&index=8)
+[youtube](https://www.youtube.com/watch?v=hirL1eDbum8&list=PLY1P2_piiWEYjjumZztc_U4EYTpwx9mfe&index=7)
 
 一个物体有三个属性
 ```
@@ -46,8 +47,19 @@ view?.presentScene(gameScene, transition: ...)
 
 presentScene后旧Scene的引用被删除
 
+---
+
+guard let v = str else {  } //失败则进入{}
+if let v = str {}					//成功则进入{}
+
+---
+
 2019.10.13
 TODO:
 优化初始化
-暂停按钮 + 界面
+
+
+
+
+
 

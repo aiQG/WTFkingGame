@@ -32,7 +32,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	let motionManger = CMMotionManager()
 	var xAcceleration:CGFloat = 0 //x轴的加速
 	
+	var pauseButton:SKSpriteNode!
+	
     override func didMove(to view: SKView) {
+		
+		pauseButton = SKSpriteNode(color: .init(red: 1, green: 0, blue: 0, alpha: 0.5), size: CGSize(width: 100, height: 100))
+		pauseButton.name = "Pause"
+		pauseButton.position = CGPoint(x: 750-75, y: 1334-150)
+		pauseButton.zPosition = 1
+		self.addChild(pauseButton)
+		
+		
 		addLives()
 		
 		starfield = SKEmitterNode(fileNamed: "Starfield")
@@ -135,6 +145,79 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		
 	}
 	
+	
+	var pauseScene:SKSpriteNode!
+	var pauseLabel:SKLabelNode!
+	var backButton:SKSpriteNode!
+	var restartButton:SKSpriteNode!
+	var menuButton:SKSpriteNode!
+	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+		let touch = touches.first
+		if let location = touch?.location(in: self) {
+			let node = self.nodes(at: location)
+			if node[0].name == "Pause" {
+				//pause game
+				gameTimer.invalidate()
+				self.isPaused = true
+				
+				pauseScene = SKSpriteNode(color: .init(red: 0.2578, green: 0.2578, blue: 0.2578, alpha: 0.75), size: CGSize(width: 760, height: 1344))
+				pauseScene.position = CGPoint(x: 750/2-5, y: 1334/2-5)
+				pauseScene.zPosition = 2 //over everything
+				self.addChild(pauseScene)
+				
+				pauseLabel = SKLabelNode(text: "Pause")
+				pauseLabel.fontSize = 100
+				pauseLabel.fontName = "Cochin"
+				pauseLabel.name = "pauseLabel"
+				pauseLabel.position = CGPoint(x: 375, y: 1046)
+				pauseLabel.zPosition = 2
+				self.addChild(pauseLabel)
+				
+				backButton = SKSpriteNode(color: .red, size: CGSize(width: 100, height: 100))
+				backButton.name = "Back"
+				backButton.position = CGPoint(x: 750-75, y: 1334-150)
+				backButton.zPosition = 2
+				self.addChild(backButton)
+				
+				restartButton = SKSpriteNode(color: .red, size: CGSize(width: 480, height: 100))
+				restartButton.name = "Restart"
+				restartButton.position = CGPoint(x: 375, y: 769)
+				restartButton.zPosition = 2
+				self.addChild(restartButton)
+				
+				menuButton = SKSpriteNode(color: .red, size: CGSize(width: 480, height: 100))
+				menuButton.name = "Menu"
+				menuButton.position = CGPoint(x: 375, y: 590)
+				menuButton.zPosition = 2
+				self.addChild(menuButton)
+			} else if node[0].name == "Back" {
+				//remove Node
+				menuButton.removeFromParent()
+				restartButton.removeFromParent()
+				backButton.removeFromParent()
+				pauseLabel.removeFromParent()
+				pauseScene.removeFromParent()
+				
+				//Back to game
+				var timeInterval = 0.75
+				if UserDefaults.standard.bool(forKey: "difficultyHard") {
+					timeInterval = 0.3
+				}
+				gameTimer = Timer.scheduledTimer(timeInterval: timeInterval, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true) //生成alien
+				gameTimer.fire()
+				self.isPaused = false
+			} else if node[0].name == "Restart" {
+				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
+				let gameScene = GameScene(size: self.size)  //.swift
+				self.view?.presentScene(gameScene, transition: transition)
+			} else if node[0].name == "Menu" {
+				let transition = SKTransition.flipHorizontal(withDuration: 0.5)
+				let menuScene = SKScene(fileNamed: "MenuScene") as! MenuScene //.sks
+				menuScene.scaleMode = .aspectFill
+				self.view?.presentScene(menuScene, transition: transition)
+			}
+		}
+	}
 	
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 		fireTorpedo()
