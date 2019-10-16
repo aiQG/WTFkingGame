@@ -22,9 +22,12 @@ class GameOverScene: SKScene {
 		scoreLable.text = "\(score)"
 		
 		newGameButtonNode = (self.childNode(withName: "newGameButton") as! SKSpriteNode)
-		newGameButtonNode.texture = SKTexture(imageNamed: "torpedo")
+		newGameButtonNode.texture = SKTexture(imageNamed: "button5")
+		
 		
 		menuButton = (self.childNode(withName: "menuButton") as! SKSpriteNode)
+		menuButton.texture = SKTexture(imageNamed: "button6")
+		menuButton.scale(to: CGSize(width: 300, height: 100))
 	}
 	
 	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

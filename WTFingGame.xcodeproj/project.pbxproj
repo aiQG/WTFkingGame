@@ -27,8 +27,6 @@
 		59F347282352F3920090B7A2 /* lostLive.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 59F347272352F3920090B7A2 /* lostLive.mp3 */; };
 		59F3472A2352F65F0090B7A2 /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F347292352F65F0090B7A2 /* GameOverScene.swift */; };
 		59F3472C2352F67B0090B7A2 /* GameOverScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 59F3472B2352F67B0090B7A2 /* GameOverScene.sks */; };
-		59F3472F2356B6230090B7A2 /* PauseScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 59F3472E2356B6230090B7A2 /* PauseScene.sks */; };
-		59F347312356B64D0090B7A2 /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59F347302356B64D0090B7A2 /* PauseScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,8 +73,6 @@
 		59F347272352F3920090B7A2 /* lostLive.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = lostLive.mp3; sourceTree = "<group>"; };
 		59F347292352F65F0090B7A2 /* GameOverScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		59F3472B2352F67B0090B7A2 /* GameOverScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameOverScene.sks; sourceTree = "<group>"; };
-		59F3472E2356B6230090B7A2 /* PauseScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = PauseScene.sks; sourceTree = "<group>"; };
-		59F347302356B64D0090B7A2 /* PauseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,7 +128,6 @@
 				59A68B74234D6811009EC82A /* GameViewController.swift */,
 				59A68B70234D6811009EC82A /* Actions.sks */,
 				59A68B76234D6811009EC82A /* Main.storyboard */,
-				59F347322356B6520090B7A2 /* Pause */,
 				59F3472D2352F6A90090B7A2 /* Game Over  */,
 				59F347262352ED5D0090B7A2 /* Menu */,
 				59F3471F2352A8EE0090B7A2 /* Game */,
@@ -207,15 +202,6 @@
 				59F347292352F65F0090B7A2 /* GameOverScene.swift */,
 			);
 			path = "Game Over ";
-			sourceTree = "<group>";
-		};
-		59F347322356B6520090B7A2 /* Pause */ = {
-			isa = PBXGroup;
-			children = (
-				59F3472E2356B6230090B7A2 /* PauseScene.sks */,
-				59F347302356B64D0090B7A2 /* PauseScene.swift */,
-			);
-			path = Pause;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,7 +321,6 @@
 				59F347232352A9C90090B7A2 /* MenuScene.sks in Resources */,
 				59A68B7D234D6812009EC82A /* LaunchScreen.storyboard in Resources */,
 				59A68B71234D6811009EC82A /* Actions.sks in Resources */,
-				59F3472F2356B6230090B7A2 /* PauseScene.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +350,6 @@
 				59F347252352AC960090B7A2 /* MenuScene.swift in Sources */,
 				59A68B75234D6811009EC82A /* GameViewController.swift in Sources */,
 				59A68B6D234D6811009EC82A /* AppDelegate.swift in Sources */,
-				59F347312356B64D0090B7A2 /* PauseScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

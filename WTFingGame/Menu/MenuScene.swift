@@ -25,7 +25,7 @@ class MenuScene: SKScene {
 		
 		difficultyButtonNode = (self.childNode(withName: "difficultyButton") as! SKSpriteNode)
 		//手动加纹理
-		difficultyButtonNode.texture = SKTexture(imageNamed: "spark")
+		difficultyButtonNode.texture = SKTexture(imageNamed: "button4")
 		
 		difficultyLabelNode = (self.childNode(withName: "difficultyLabel") as! SKLabelNode)
 		

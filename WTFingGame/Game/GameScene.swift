@@ -13,6 +13,7 @@ import CoreMotion //硬件的运动信息
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
    
+	var isRunning:Bool! //pause & run
 	var starfield:SKEmitterNode!
 	var player:SKSpriteNode!
    
@@ -35,8 +36,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	var pauseButton:SKSpriteNode!
 	
     override func didMove(to view: SKView) {
+		isRunning = true
 		
-		pauseButton = SKSpriteNode(color: .init(red: 1, green: 0, blue: 0, alpha: 0.5), size: CGSize(width: 100, height: 100))
+		pauseButton = SKSpriteNode(color: .init(red: 0, green: 0, blue: 0, alpha: 0), size: CGSize(width: 75, height: 75))
+		pauseButton.texture = SKTexture(imageNamed: "button2")
 		pauseButton.name = "Pause"
 		pauseButton.position = CGPoint(x: 750-75, y: 1334-150)
 		pauseButton.zPosition = 1
@@ -53,7 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		starfield.zPosition = -1 //在所有东西下面
 		
 		player = SKSpriteNode(imageNamed: "shuttle")
-		
+		player.zPosition = 1
 		player.position = CGPoint(x: 750/2, y: 0+30)
 		
 		self.addChild(player)
@@ -156,6 +159,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 		if let location = touch?.location(in: self) {
 			let node = self.nodes(at: location)
 			if node[0].name == "Pause" {
+				isRunning = false
+				
+				//semove pauseButton
+				pauseButton.removeFromParent()
+				
 				//pause game
 				gameTimer.invalidate()
 				self.isPaused = true
@@ -173,24 +181,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 				pauseLabel.zPosition = 2
 				self.addChild(pauseLabel)
 				
-				backButton = SKSpriteNode(color: .red, size: CGSize(width: 100, height: 100))
+				backButton = SKSpriteNode(color: .init(red: 0, green: 0, blue: 0, alpha: 0), size: CGSize(width: 75, height: 75))
+				backButton.texture = SKTexture(imageNamed: "button1")
 				backButton.name = "Back"
 				backButton.position = CGPoint(x: 750-75, y: 1334-150)
 				backButton.zPosition = 2
 				self.addChild(backButton)
 				
 				restartButton = SKSpriteNode(color: .red, size: CGSize(width: 480, height: 100))
+				restartButton.texture = SKTexture(imageNamed: "button5")
 				restartButton.name = "Restart"
 				restartButton.position = CGPoint(x: 375, y: 769)
 				restartButton.zPosition = 2
 				self.addChild(restartButton)
 				
 				menuButton = SKSpriteNode(color: .red, size: CGSize(width: 480, height: 100))
+				menuButton.texture = SKTexture(imageNamed: "button6")
 				menuButton.name = "Menu"
+				menuButton.scale(to: CGSize(width: 300, height: 100))
 				menuButton.position = CGPoint(x: 375, y: 590)
 				menuButton.zPosition = 2
 				self.addChild(menuButton)
 			} else if node[0].name == "Back" {
+				isRunning = true
+				//重设pauseButton
+				pauseButton = SKSpriteNode(color: .init(red: 0, green: 0, blue: 0, alpha: 0), size: CGSize(width: 75, height: 75))
+				pauseButton.texture = SKTexture(imageNamed: "button2")
+				pauseButton.name = "Pause"
+				pauseButton.position = CGPoint(x: 750-75, y: 1334-150)
+				pauseButton.zPosition = 1
+				self.addChild(pauseButton)
+				
 				//remove Node
 				menuButton.removeFromParent()
 				restartButton.removeFromParent()
@@ -220,7 +241,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 	}
 	
 	override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-		fireTorpedo()
+		if isRunning {
+			fireTorpedo()
+		}
 	}
 	
 	
